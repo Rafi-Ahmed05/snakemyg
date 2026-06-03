@@ -3,9 +3,10 @@ Color turqoise={64, 224, 208, 255};
 typedef struct
 {
     Vector2 position;
+    Texture2D texture;
 }Food;
- void DrawFood(const Food* food,int cellsize, Color turqoise){
-    DrawRectangle(food->position.x*cellsize, food->position.y*cellsize, cellsize,cellsize, turqoise );
+ void DrawFood(const Food* food,int cellsize, Color color){
+    DrawTexture(food->texture,(int)(food->position.x*cellsize), (int)(food->position.y*cellsize), color );
  }
 
 int main() {
@@ -14,14 +15,21 @@ int main() {
     int tot=cellrow*cellsize;
     InitWindow(tot,tot,"MyBigSnake");
     SetTargetFPS(60);
-    Food food={{5,6}};
+    Food food;
+    food.position=(Vector2){5,6};
+    Image image=LoadImage("3t.png");
+    ImageAlphaCrop(&image,0.0f);
+    ImageResize(&image, cellsize, cellsize);
+    food.texture=LoadTextureFromImage(image);
+    UnloadImage(image);
     while(WindowShouldClose() == false){
         BeginDrawing();
         ClearBackground(turqoise);
-        DrawFood(&food, cellsize, turqoise);
+        DrawFood(&food, cellsize, WHITE);
         EndDrawing();
         
     }
+    UnloadTexture(food.texture);
     CloseWindow();
     return 0;
 }
