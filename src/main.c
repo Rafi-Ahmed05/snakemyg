@@ -1,27 +1,24 @@
 #include <raylib.h>
+Color turqoise={64, 224, 208, 255};
+typedef struct
+{
+    Vector2 position;
+}Food;
+ void DrawFood(const Food* food,int cellsize, Color turqoise){
+    DrawRectangle(food->position.x*cellsize, food->position.y*cellsize, cellsize,cellsize, turqoise );
+ }
 
 int main() {
-    InitWindow(800,800,"MyBigSnake");
+    int cellrow= 25;
+    int cellsize=30;
+    int tot=cellrow*cellsize;
+    InitWindow(tot,tot,"MyBigSnake");
     SetTargetFPS(60);
-    Color turqoise={64, 224, 208, 255};
-    int x=400;
-    int y=400;
+    Food food={{5,6}};
     while(WindowShouldClose() == false){
-
-        if (IsKeyDown(KEY_RIGHT)){
-            x+=3;
-        }else if(IsKeyDown(KEY_LEFT)){
-            x-=3;
-        }else if(IsKeyDown(KEY_UP)){
-            y-=3;
-        }else if(IsKeyDown(KEY_DOWN))
-        {
-            y+=3;
-        }
-        
         BeginDrawing();
         ClearBackground(turqoise);
-        DrawCircle(x,y,20, WHITE);
+        DrawFood(&food, cellsize, turqoise);
         EndDrawing();
         
     }
