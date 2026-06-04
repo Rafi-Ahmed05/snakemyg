@@ -1,5 +1,16 @@
 #include <raylib.h>
+#define MaxLength 625
 Color turqoise={64, 224, 208, 255};
+
+typedef struct
+{
+    Vector2 body[MaxLength];
+    int length;
+    Vector2 direction;
+
+} Snake;
+
+
 typedef struct
 {
     Vector2 position;
@@ -27,8 +38,19 @@ int main() {
     ImageResize(&image, cellsize, cellsize);
     food.texture=LoadTextureFromImage(image);
     UnloadImage(image);
+    Snake snake;
+    snake.length=3;
+    snake.body[0]=(Vector2){7,12};
+    snake.body[1]=(Vector2){6,12};
+    snake.body[2]=(Vector2){5,12};
     while(WindowShouldClose() == false){
         BeginDrawing();
+        for (int i = 0; i < snake.length ; i++)
+        {
+            Color snakecolor= (i==0)? BLACK:WHITE;
+            DrawRectangle(snake.body[i].x*cellsize,snake.body[i].y*cellsize,cellsize, cellsize, snakecolor);
+        }
+        
         ClearBackground(turqoise);
         DrawFood(&food, cellsize, WHITE);
         EndDrawing();
